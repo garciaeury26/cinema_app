@@ -1,10 +1,13 @@
-import 'package:cinema_app/router/app_router.dart';
-import 'package:cinema_app/screens/screens.dart';
-import 'package:cinema_app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:cinema_app/router/app_router.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:cinema_app/theme/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+Future main() async {
+  await dotenv.load(fileName: '.env'); // mergeWit
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
