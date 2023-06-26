@@ -8,7 +8,7 @@ class ActorsRepositoryImpl implements ActorsRepository {
   ActorsRepositoryImpl(this.dataSource);
 
   @override
-  Future<List<Actor>> getActors() {
+  Future<List<Actor>> getActors(int movieId) {
     throw UnimplementedError();
   }
 }
