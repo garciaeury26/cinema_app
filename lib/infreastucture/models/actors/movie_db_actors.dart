@@ -30,13 +30,13 @@ class Cast {
   final String name;
   final String originalName;
   final double popularity;
-  final String profilePath;
-  final int castId;
-  final String character;
+  final String? profilePath;
+  final int? castId;
+  final String? character;
   final String creditId;
-  final int order;
+  final int? order;
   final String? department;
-  final String job;
+  final String? job;
 
   Cast({
     required this.adult,
