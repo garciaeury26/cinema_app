@@ -21,7 +21,7 @@ class MovieMapper {
         posterPath: movieDb.posterPath != ''
             ? 'https://image.tmdb.org/t/p/w500/${movieDb.posterPath}'
             : 'no-poster',
-        releaseDate: movieDb.releaseDate,
+        releaseDate: movieDb.releaseDate ?? DateTime.now(),
         title: movieDb.title,
         video: movieDb.video,
         voteAverage: movieDb.voteAverage,

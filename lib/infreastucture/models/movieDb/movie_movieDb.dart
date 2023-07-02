@@ -9,7 +9,7 @@ class MovieFromMovieDb {
   final String overview;
   final double popularity;
   final String posterPath;
-  final DateTime releaseDate;
+  final DateTime? releaseDate;
   final String title;
   final bool video;
   final double voteAverage;
@@ -35,18 +35,23 @@ class MovieFromMovieDb {
   factory MovieFromMovieDb.fromJson(Map<String, dynamic> json) =>
       MovieFromMovieDb(
         adult: json["adult"] ?? false,
-        backdropPath: json["backdrop_path"] ?? '',
+        backdropPath: json["backdrop_path"] ??
+            'https://th.bing.com/th/id/R.422000335cf66085f9d8b39081096bde?rik=TpwN0%2fraVu%2b2BA&pid=ImgRaw&r=0',
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"] ?? '',
         popularity: json["popularity"]?.toDouble(),
-        posterPath: json["poster_path"] ?? '',
-        releaseDate: DateTime.parse(json["release_date"]),
-        title: json["title"],
-        video: json["video"],
-        voteAverage: json["vote_average"]?.toDouble(),
-        voteCount: json["vote_count"],
+        posterPath: json["poster_path"] ??
+            'https://th.bing.com/th/id/R.422000335cf66085f9d8b39081096bde?rik=TpwN0%2fraVu%2b2BA&pid=ImgRaw&r=0',
+        releaseDate: json["release_date"] != null &&
+                json["release_date"].toString().isNotEmpty
+            ? DateTime.parse(json["release_date"])
+            : null,
+        title: json["title"] ?? 'No title',
+        video: json["video"] ?? 'No video',
+        voteAverage: json["vote_average"]?.toDouble() ?? 0,
+        voteCount: json["vote_count"] ?? 0,
       );
 }
