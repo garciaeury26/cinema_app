@@ -1,8 +1,6 @@
 import 'package:cinema_app/domain/entities/movie.dart';
 import 'package:cinema_app/presentation/delegates/search_movie_delegate.dart';
-import 'package:cinema_app/presentation/providers/movies/movie_info_provider.dart';
 import 'package:cinema_app/presentation/providers/movies/movies_repository_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

@@ -8,7 +8,7 @@ class MovieSearchItem extends StatelessWidget {
   final Movie movie;
   // rese una funcion que sera la de close => nativa de flutter
   // para serra el searchDeletgate
-  final Function onMovieSelected;
+  final Function(BuildContext, Movie) onMovieSelected;
 
   const MovieSearchItem(
       {super.key, required this.movie, required this.onMovieSelected});

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:cinema_app/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,27 @@ typedef SearchMoviesCallBack = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallBack searchMovies;
+  Timer? _timer;
+  StreamController<List<Movie>> debounceMovie = StreamController.broadcast();
 
   SearchMovieDelegate({required this.searchMovies});
+
+  void _onQueryChanged(String query) {
+    _timer?.cancel();
+    _timer = Timer(const Duration(milliseconds: 2000), () async {
+      if (query.isEmpty) {
+        debounceMovie.add([]);
+        return;
+      }
+      final listMovies = await searchMovies(query);
+      debounceMovie.add(listMovies);
+    });
+  }
+
+  // ! es recomendable limpiar los stream
+  void clearStream() {
+    debounceMovie.close();
+  }
 
   // esto es opcional => default => Search;
   @override
@@ -36,8 +57,12 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, null),
-        icon: const Icon(Icons.arrow_back));
+      onPressed: () {
+        clearStream();
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
   }
 
   @override
@@ -64,6 +89,29 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return const Text('buildSuggestions');
+    _onQueryChanged(query);
+
+    return StreamBuilder<List<Movie>>(
+      initialData: const [],
+      stream: debounceMovie.stream,
+      builder: (BuildContext context, snapshot) {
+        final movies = snapshot.data ?? [];
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: movies.length,
+          itemBuilder: (context, index) {
+            final movie = movies[index];
+            return MovieSearchItem(
+              movie: movie,
+              onMovieSelected: (context, movie) {
+                close(context, movie);
+                clearStream();
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }
