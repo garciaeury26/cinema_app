@@ -13,15 +13,18 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   List<Movie> initialData;
   Timer? _timer;
   StreamController<List<Movie>> debounceMovie = StreamController.broadcast();
+  StreamController<bool> isLoading = StreamController.broadcast();
 
   SearchMovieDelegate({required this.searchMovies, required this.initialData});
 
   void _onQueryChanged(String query) {
     _timer?.cancel();
     _timer = Timer(const Duration(milliseconds: 2000), () async {
+      if (query.isNotEmpty) isLoading.add(true);
       final listMovies = await searchMovies(query);
       initialData = listMovies;
       debounceMovie.add(listMovies);
+      isLoading.add(false);
     });
   }
 
@@ -40,14 +43,35 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     // print('query: $query');
 
     return [
-      FadeIn(
-        animate: query.isNotEmpty,
-        child: IconButton(
-          // researt el texto
-          onPressed: () => query = '',
-          icon: const Icon(Icons.clear),
-        ),
-      ),
+      StreamBuilder(
+        initialData: false,
+        stream: isLoading.stream,
+        builder: (context, snapshot) {
+          final isLoadingFull = snapshot.data ?? false;
+
+          if (isLoadingFull) {
+            return SpinPerfect(
+              duration: const Duration(seconds: 20),
+              spins: 10,
+              infinite: true,
+              child: IconButton(
+                // researt el texto
+                onPressed: () => query = '',
+                icon: const Icon(Icons.refresh_rounded),
+              ),
+            );
+          }
+
+          return FadeIn(
+            animate: query.isNotEmpty,
+            child: IconButton(
+              // researt el texto
+              onPressed: () => query = '',
+              icon: const Icon(Icons.clear),
+            ),
+          );
+        },
+      )
     ];
   }
 
