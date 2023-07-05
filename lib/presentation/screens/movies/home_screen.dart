@@ -1,10 +1,10 @@
-import 'package:cinema_app/presentation/views/views.dart';
 import 'package:cinema_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   static const name = 'home_screen';
-  final Widget childView;
+  final StatefulNavigationShell childView;
 
   const HomeScreen({
     super.key,

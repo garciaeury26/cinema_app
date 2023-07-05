@@ -39,7 +39,6 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
     return BottomNavigationBar(
       currentIndex: getActiveTab(context),
       onTap: (value) {
