@@ -60,6 +60,15 @@ class _CustomSliverAppBar extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return SliverAppBar(
+      actions: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_rounded,
+              color: Color.fromARGB(255, 245, 91, 80),
+            ))
+      ],
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7, // 70%
       foregroundColor: Colors.white,
@@ -82,19 +91,57 @@ class _CustomSliverAppBar extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox.expand(
-                child: DecoratedBox(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      end: Alignment.bottomRight,
-                      begin: Alignment.bottomLeft,
-                      transform: GradientRotation(90),
-                      colors: [Colors.transparent, Colors.black])),
-            ))
+            const CustomGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.bottomRight,
+              stops: [0.5, 1],
+            ),
+            const CustomGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.4, 1],
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class CustomGradient extends StatelessWidget {
+  final Alignment begin;
+  final Alignment end;
+  final double transform;
+  final List<Color> colors;
+  final List<double>? stops;
+
+  static const defaultColors = [
+    Colors.transparent,
+    Color.fromARGB(192, 0, 0, 0)
+  ];
+
+  const CustomGradient({
+    super.key,
+    this.begin = Alignment.bottomLeft,
+    this.end = Alignment.bottomRight,
+    this.transform = 90,
+    this.colors = defaultColors,
+    this.stops,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+        child: DecoratedBox(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        stops: stops,
+        end: end,
+        begin: begin,
+        transform: GradientRotation(transform),
+        colors: colors,
+      )),
+    ));
   }
 }
 
@@ -104,10 +151,6 @@ class _MovieDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final textStyle = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

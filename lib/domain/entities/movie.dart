@@ -1,4 +1,15 @@
+import 'package:isar/isar.dart';
+
+// crear un archivo con este nombre
+// que sera sera  la base de datos en si
+part 'movie.g.dart';
+
+// crear entidad para => isar
+@collection
 class Movie {
+  // ! obrigatorio si es una collection de isar
+  Id? isarid;
+
   final bool adult;
   final String backdropPath;
   final List<String> genreIds;
