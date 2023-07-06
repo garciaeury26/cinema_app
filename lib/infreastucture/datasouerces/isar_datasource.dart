@@ -37,7 +37,7 @@ class IsarDataSource extends LocalStorageDataSource {
     }
 
     // borrar
-    isar.writeTxnSync(() => isar.movies.deleteSync(movie.id));
+    isar.writeTxnSync(() => isar.movies.deleteSync(isMovieInFavorites.isarid!));
   }
 
   @override
