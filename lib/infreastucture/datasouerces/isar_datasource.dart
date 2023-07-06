@@ -33,6 +33,7 @@ class IsarDataSource extends LocalStorageDataSource {
     // agregar
     if (isMovieInFavorites == null) {
       isar.writeTxnSync(() => isar.movies.putSync(movie));
+      return;
     }
 
     // borrar

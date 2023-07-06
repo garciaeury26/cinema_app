@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/actors/actors_by_movie_provider.dart';
+import '../../providers/providers.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie_screen';
@@ -51,17 +52,23 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final Movie movie;
-  const _CustomSliverAppBar({super.key, required this.movie});
+  const _CustomSliverAppBar({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final size = MediaQuery.of(context).size;
 
     return SliverAppBar(
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+        IconButton(
+            onPressed: () {
+              ref.watch(localStorageProvider).toggleFavorite(movie);
+            },
+            icon: const Icon(
+              Icons.favorite_border,
+            )),
         IconButton(
             onPressed: () {},
             icon: const Icon(
