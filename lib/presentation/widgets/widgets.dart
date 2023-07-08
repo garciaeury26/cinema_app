@@ -4,3 +4,5 @@ export 'shared/custom_appbar.dart';
 export './movies/movies_slidershow.dart';
 export './shared/bottom_navigationbar.dart';
 export './shared/loading.dart';
+export './movies/movie_favorite_card.dart';
+export './movies/movies_masonry.dart';
