@@ -102,7 +102,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         title: Text(
           movie.title,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           textAlign: TextAlign.start,
         ),
         background: Stack(
@@ -126,6 +126,12 @@ class _CustomSliverAppBar extends ConsumerWidget {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               stops: [0.4, 1],
+            ),
+            const Positioned(
+              bottom: 100,
+              right: 40,
+              left: 40,
+              child: PlayAndDownload(),
             ),
           ],
         ),
