@@ -37,4 +37,18 @@ class FavoritesMoviesNofitier extends StateNotifier<Map<int, Movie>> {
     state = {...state, ...tempMoviesMap};
     return movies;
   }
+
+  Future<void> toggleFavorite(Movie movie) async {
+    await localStorageRepository.toggleFavorite(movie);
+    final bool isMovieInfavorites = state[movie.id] != null;
+
+    if (isMovieInfavorites) {
+      // si existe en favoritos la removue y cambio el estado
+      state.remove(movie.id);
+      state = {...state};
+    } else {
+      // si no exite mantengo el estado anterior y creo el nuevo mapa
+      state = {...state, movie.id: movie};
+    }
+  }
 }

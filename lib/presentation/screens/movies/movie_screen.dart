@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinema_app/domain/entities/movie.dart';
 import 'package:cinema_app/presentation/providers/movies/movie_info_provider.dart';
+import 'package:cinema_app/presentation/providers/storage/favorites_movies_provider.dart';
 import 'package:cinema_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,7 +74,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
       actions: [
         IconButton(
             onPressed: () {
-              ref.watch(localStorageProvider).toggleFavorite(movie);
+              // ref.watch(localStorageProvider).toggleFavorite(movie);
+
+              ref.read(favoritesMoviesProvider.notifier).toggleFavorite(movie);
             },
             icon: isFavoriteFuture.when(
               data: (isFavorite) {
